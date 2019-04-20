@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>IndexedDB | Обработка пропущенных звонков</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Пример использования IndexedDb. Создание базы данных. Добавление, удаление, обновление данных.">
+    <meta name="keywords" content="indexeddb">
+    <meta name="robots" content="all">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    -->
+</head>
+
+<body>
+    <div class="container">
+        <!--Внесение данных-->
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>
+                    Внесите данные
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="inpNumber">Пропущенный номер</label>
+                    <input type="text" class="form-control" id="inpNumber" aria-describedby="helpId"
+                        placeholder="Номер телефона" autofocus>
+                    <small id="helpId" class="form-text text-muted">тут нужно указать пропущенный номер</small>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="inpTime">Время</label>
+                    <input type="text" class="form-control" id="inpTime" aria-describedby="helpId"
+                        placeholder="Время звонка">
+                    <small id="helpId" class="form-text text-muted">тут нужно указать время пропущенного вызова</small>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="btnSave">Сохранить</label>
+                <input id="btnSave" class="btn btn-primary" type="button" value="Сохранить">
+            </div>
+            <div class="col-sm-2">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="checkAll" id="checkAll">
+                        Показать все
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="btnDeleteAll" id="lbDeleteAll">Очистить</label>
+                <input id="btnDeleteAll" class="btn btn-success" type="button" value="Очистить данные"
+                    style="visibility:hidden">
+            </div>
+        </div>
+        <!--Вывод Необработанных данных-->
+        <div class="container">
+            <div class="row" id="tableWork" style="display: none">
+                <div class="col-sm-12">
+                    <h2>
+                        <span class="badge badge-warning">Необработанные звонки</span>
+                    </h2>
+                </div>
+                <div class="container text-center">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="table-dark">
+                            <th class="align-middle">Номер</th>
+                            <th class="align-middle">Время</th>
+                            <th class="align-middle">Описание</th>
+                            <th class="align-middle">Выполнено</th>
+                        </thead>
+                        <tbody class="table-striped" id="tableBody">
+                            <!--  Тут добавляются данные  -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--Вывод всех данных-->
+        <div class="container">
+            <div class="row" id="tableAll" style="display: none">
+                <div class="col-sm-12">
+                    <h2>
+                        <span class="badge badge-success">Все звонки</span>
+                    </h2>
+                </div>
+                <div class="container text-center">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="table-dark">
+                            <th class="align-middle">Номер</th>
+                            <th class="align-middle">Время</th>
+                            <th class="align-middle">Описание</th>
+                            <th class="align-middle">Выполнено</th>
+                        </thead>
+                        <tbody class="table-striped" id="tableBodyAll">
+                            <!--  Тут добавляются данные  -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript" src="calls.js"></script>
+</body>
+
+</html>
