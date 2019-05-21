@@ -184,14 +184,26 @@ createTable = (arr, table) => {
         //Описание
         tableDescription = document.createElement('td');
         tableDescription.classList.add('text-left');
-        tableDescription.setAttribute('contenteditable', 'true');
+        //tableDescription.setAttribute('contenteditable', 'true');
         tableDescription.style.width = '40%';
         tableDescription.name = 'tableDescription';
-        if (element.description != undefined) {
-            tableDescription.innerText = element.description
-        }
+        // if (element.description != undefined) {
+        //     tableDescription.innerText = element.description
+        // }
         tableTr.appendChild(tableDescription);
         obj.description = element.description;
+        spanDescription = document.createElement('div');
+        spanDescription.setAttribute('contenteditable', 'true');
+        spanDescription.name = 'spanDescription';
+        spanDescription.style.display = 'block';
+        spanDescription.style.width = '100%';
+        spanDescription.style.backgroundColor = 'lightred';
+        if (element.description != undefined) {
+            spanDescription.innerText = element.description;
+        } else {
+            spanDescription.innerText = '... редактировать';
+        }
+        tableDescription.appendChild(spanDescription);
         //Результат
         tableTd = document.createElement('td');
         tableTd.classList.add('align-middle');
@@ -227,10 +239,11 @@ createTable = (arr, table) => {
         if (table == 'tableWork') {        //Работаем только с элементами где нет result
             tableBody.appendChild(tableTr);
             сhange(selectResult, obj);
-            сhange(tableDescription, obj);
+            сhange(spanDescription, obj);
         }
         if (table == 'tableAll') {
-            tableBodyAll.appendChild(tableTr)
+            tableBodyAll.appendChild(tableTr);
+            spanDescription.setAttribute('contenteditable', 'false');
         }
     });
 }
@@ -241,7 +254,6 @@ createTable = (arr, table) => {
     if (selectResult.name == 'selectDone') {
         selectResult.addEventListener('change', (e) => {
             obj.result = e.target.value;
-            console.log(`Собираемся удалить ${obj}`);
             (async function fnres() {
                 await calls.goLive('write', obj);
                 await calls.goLive('read');
@@ -249,14 +261,26 @@ createTable = (arr, table) => {
         })
     }
     //Установка blur на description
-    else if (selectResult.name == 'tableDescription') {
+    else if (selectResult.name == 'spanDescription') {
         selectResult.addEventListener('blur', (e) => {
+            if (selectResult.innerText.length == 0 ) {
+                selectResult.innerText = '... редактировать';
+            } else if (selectResult.innerText.length == 1 && selectResult.innerText.charCodeAt(0) == 10) {
+                selectResult.innerText = '... редактировать';
+            };
             obj.description = e.target.innerText;
             (async function fn() {
                 await calls.goLive('write', obj);
                 await calls.goLive('read');
             })();
         })
+        //При фокусировке
+        selectResult.addEventListener('focus', (e) => {
+            if (selectResult.innerText == '... редактировать') {
+                selectResult.innerText = '';
+            }
+        })
+
     }
 }
 //удаление строк в таблице необработанных звонков
